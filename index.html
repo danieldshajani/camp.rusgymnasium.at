@@ -1536,9 +1536,12 @@ footer {
       if (json.success) {
         show('ok', 'Заявка отправлена. Свяжемся с вами в течение 24 часов.');
         form.reset();
-      } else { throw new Error(); }
-    } catch {
-      show('err', 'Ошибка отправки. Напишите напрямую: <a href="mailto:info@rusgymnasium.at">info@rusgymnasium.at</a>');
+      } else {
+        throw new Error(json.message || '');
+      }
+    } catch (e) {
+      const detail = e.message ? ` (${e.message})` : '';
+      show('err', 'Ошибка отправки' + detail + '. Напишите напрямую: <a href="mailto:info@rusgymnasium.at">info@rusgymnasium.at</a>');
     }
 
     submitBtn.disabled    = false;
